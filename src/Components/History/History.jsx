@@ -1,6 +1,9 @@
 import React from 'react'
 
 const History = ({history, setHistory}) => {
+  const deleteHistory = () =>{
+    setHistory([])
+  }
   return (
     <div>
         <h1>Your history</h1>
@@ -10,7 +13,7 @@ const History = ({history, setHistory}) => {
                 </p>))
         }
 
-        <button>Delete History</button>
+        <button onClick={deleteHistory}>Delete History</button>
     </div>
   )
 }
