@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Calculator.css';
 import Display from '../Display/Display';
 import History from '../History/History';
+import { renderToPipeableStream } from 'react-dom/server';
 const Calculator = () => {
     //let display = "xxx" if i make a variable here then why doesnot it work
     const [data, setData] = useState("")
@@ -15,7 +16,50 @@ const Calculator = () => {
     }
 
     const calculate = () => {
-        const result = eval(data).toString()
+        // const result = eval(data).toString()
+        //const x = data.toString()
+        //console.log("printing"+x)
+        let num1 = '';
+        let num2 = '';
+        let operand = '';
+        let i = 0;
+        while(i<data.length){
+            const ch = data[i];
+            if (ch === '+' || ch === '-' || ch === '*' || ch === '/') {
+                operand = ch;
+                break;
+                }
+            else {
+                num1 = num1 + ch;
+                i++;
+            }
+        }
+        i++;
+        while (i < data.length) {
+        num2 = num2 + data[i];
+        i++;
+        }
+        //console.log(num2);
+        num1 = parseFloat(num1)
+        num2 = parseFloat(num2)
+        let result = 0;
+        switch(operand){
+        case "+" :
+          result = num1+num2;
+          break;
+        case "-" :
+          result = num1-num2;
+          break;
+        case "*" :
+          result = num1*num2;
+          break;
+        case "/" :
+          result = num1/num2;
+          break;
+        default:
+        console.log("Invalid operator")
+  }
+        console.log(result.toString);
         setData(result)
         setHistory([...history, {expression: data, result}])
     }
@@ -25,7 +69,7 @@ const Calculator = () => {
     }
 
     const reset = () => {
-        setData("0")
+        setData("")
     }
   return (
     <div className='container grid grid-cols-3 gap-3'>
