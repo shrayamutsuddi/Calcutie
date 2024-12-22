@@ -1,30 +1,45 @@
-import React from 'react'
+import React from 'react';
+import './History.css'; 
 
-const History = ({history, setHistory}) => {
-  const deleteHistory = () =>{
-    setHistory([])
-  }
+const History = ({ history, setHistory }) => {
+  const deleteHistory = () => {
+    setHistory([]);
+  };
+
   const deleteCustomHistory = (indexToDelete) => {
-    const updatedHistory = history.filter((element, index) => delFunc(index, indexToDelete))
-    setHistory(updatedHistory)
-  }
-  const delFunc = (index, indexToDelete) => {
-    return index !== indexToDelete;
-  }
+    const updatedHistory = history.filter((_, index) => index !== indexToDelete);
+    setHistory(updatedHistory);
+  };
+
   return (
-    <div>
-        <h1>Your history</h1>
-        {
-            history.map((x, index) => (<p key={index}>
-                {x.expression} = {x.result}
-                <button onClick={() => deleteCustomHistory(index)}>Delete</button>
-                </p>)
-                )
-        }
-
-        <button onClick={deleteHistory}>Delete All History</button>
+    <div className="history-container">
+      <h2>Your History</h2>
+      {history.length === 0 ? (
+        <p className="no-history">No history available</p>
+      ) : (
+        <ul className="history-list">
+          {history.map((item, index) => (
+            <li key={index} className="history-item">
+              <span>
+                {item.expression} = <strong>{item.result}</strong>
+              </span>
+              <button
+                className="delete-button"
+                onClick={() => deleteCustomHistory(index)}
+              >
+                🗑
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {history.length > 0 && (
+        <button className="delete-all-button" onClick={deleteHistory}>
+          Clear All History
+        </button>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default History
+export default History;

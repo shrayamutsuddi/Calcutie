@@ -1,4 +1,16 @@
-button{
-    background-color: blanchedalmond;
-    border: 1.5px solid black;
-}
+.container {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;    /* Centers vertically */
+    min-height: 100vh;      /* Ensures the container takes the full height of the viewport */
+    flex-direction: column; /* Ensures content is stacked vertically */
+    background-color: #f0f0f0; /* Optional: Adds a light background color */
+  }
+  
+  .calculator {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 300px; /* Fixed width for consistent layout */
+  }
