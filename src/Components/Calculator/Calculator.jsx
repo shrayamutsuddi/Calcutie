@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Calculator.css';
 import Display from '../Display/Display';
 import History from '../History/History';
@@ -18,14 +18,17 @@ const Calculator = () => {
 
   const handleButtonClick = (event) => {
     const value = event.target.value;
+    handleInput(value);
+  };
 
+  const handleInput = (value) => {
     if (value === 'AC') {
       reset();
-    } else if (value === 'C') {
+    } else if (value === 'C' || value === 'Backspace') {
       backspace();
-    } else if (value === '=') {
+    } else if (value === '=' || value === 'Enter') {
       handleCalculate();
-    } else {
+    } else if (buttonValues.includes(value) || /[0-9]/.test(value)) {
       setData(data.concat(value));
     }
   };
@@ -48,6 +51,19 @@ const Calculator = () => {
       setData('Error');
     }
   };
+
+  // Add keyboard event listener
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      handleInput(event.key);
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [data, history]);
 
   return (
     <div className="container">
